@@ -34,3 +34,11 @@ Route::get('/flash-me', function(){
     dd(session()->all());
     return redirect()->to('/');
   });
+
+Auth::routes();
+
+Route::get('/administrator', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/administrator', 'HomeController@index')->name('home');

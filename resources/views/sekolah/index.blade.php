@@ -1,29 +1,31 @@
-@extends('base')
+@extends('adminlte::page')
 
-@section('main')
+@section('title')
+
+@section('content_header')
+    <h1>Data Sekolahan</h1>
+@stop
+@section('content')
 <div class="row">
 
 <div class="col-sm-12">
-<center><h4>Data Sekolahan</h5></center>
 
 <div class="panel panel-default">
   <div class="panel-heading">
-        <form action="/hms/accommodations" method="GET">
-        <div class="float-right">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search" id="txtSearch"/>
-              <div class="input-group-btn">
-                <button class="btn btn-primary" type="submit">
-                <span class="fa fa-search"></span>
-                </button>
-              </div>
-          </div>
-        </div>
-        </form>
     <div class="panel-body">
     <button style="margin: 19px;" type="button" class="btn-sm btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><span class="fa fa-plus"></span> Tambah Data Sekolah</button>
             <button type="button" class="btn-sm btn-success" data-toggle="modal" data-target="#importExcel"><span class="fa fa-file"></span> Import</button>
             <button type="button" class="btn-sm btn-warning" data-toggle="modal" data-target="#exportExcel"><span class="fa fa-file"></span> Export</button>
+            <form action="{{ url()->current() }}">
+                <div class="col-md-11">
+                    <input type="text" name="keyword" class="form-control" placeholder="Cari Sekolah...">
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary">
+                        Cari
+                    </button>
+                </div>
+            </form>
     </div>
   </div>
 </div>
@@ -174,13 +176,13 @@
     <thead>
         <tr>
         <th width="50px"><input type="checkbox" id="master"></th>
-        <th>No</th>
-        <th>Nama</th>
-        <th>Alamat</th>
-        <th>NIS</th>
-        <th>telepon</th>
-        <th>Email</th>
-        <th>Kota</th>
+        <th>No <span class="fa fa-filter"></span></th>
+        <th>Nama <span class="fa fa-filter"></span></th>
+        <th>Alamat <span class="fa fa-filter"></span></th>
+        <th>NIS <span class="fa fa-filter"></span></th>
+        <th>telepon <span class="fa fa-filter"></span></th>
+        <th>Email <span class="fa fa-filter"></span></th>
+        <th>Kota <span class="fa fa-filter"></span></th>
         <th width="150px">Aksi</th>
         </tr>
     </thead>
@@ -197,26 +199,10 @@
             <td>{{$skul->email}}</td>
             <td>{{$skul->kota}}</td>
             <td width="150px">
-                {{-- <a  href="#" class="btn-sm btn-danger remove"><span class="fa fa-trash"></span></a> --}}
-                {{-- <a href="#" class="btn btn-danger btn-sm"
-                        data-tr="tr_{{$skul->id}}"
-                        data-toggle="confirmation"
-                        data-btn-ok-label="Delete" data-btn-ok-icon="fa fa-trash"
-                        data-btn-ok-class="btn btn-sm btn-danger"
-                        data-btn-cancel-label="Cancel"
-                        data-btn-cancel-icon="fa fa-chevron-circle-left"
-                        data-btn-cancel-class="btn btn-sm btn-default"
-                        data-title="Are you sure you want to delete ?"
-                        data-placement="left" data-singleton="true">
-                         Delete
-                     </a> --}}
-                {{-- <a href="#" data-toggle="modal" data-target="#myDetailModal{{$skul->id}}" class="btn-sm btn-warning"><span class="fa fa-info-circle"></span></a>
-                <a href="#" data-toggle="modal" data-target="#myEditModal{{$skul->id}}" class="btn-sm btn-primary"><span class="fa fa-edit"></span></a>
-                <a  href="#" class="btn-sm btn-danger remove"><span class="fa fa-trash"></span></a> --}}
 
-                        <a href="#" data-toggle="modal" data-target="#myDetailModal{{$skul->id}}" class="btn-sm btn-warning"><span class="fa fa-info-circle"></span></a>
-                        <a href="#" data-toggle="modal" data-target="#myEditModal{{$skul->id}}" class="btn-sm btn-primary"><span class="fa fa-edit"></span></a>
-                        <a href="#" data-toggle="modal" data-target="#myHapusModal{{$skul->id}}" class="btn-sm btn-primary"><span class="fa fa-trash"></span></a>
+            <a href="#" data-toggle="modal" data-target="#myDetailModal{{$skul->id}}" class="btn-sm btn-warning"><span class="fa fa-info-circle"></span></a>
+            <a href="#" data-toggle="modal" data-target="#myEditModal{{$skul->id}}" class="btn-sm btn-primary"><span class="fa fa-edit"></span></a>
+            <a href="#" data-toggle="modal" data-target="#myHapusModal{{$skul->id}}" class="btn-sm btn-primary"><span class="fa fa-trash"></span></a>
 
                 <!-- Large modal  Hapus-->
                     <div  id="myHapusModal{{$skul->id}}" class="modal modal-danger fade" role="document">
@@ -229,6 +215,15 @@
                                         <div class="text-center">
                                             Apa anda yakin !!!
                                         </div>
+                                        @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div><br />
+                                        @endif
                                     <form method="POST" action="{{ route('sekolah.destroy',$skul->id) }}" style="margin: 19px;">
                                             @csrf
                                             @method('DELETE')
@@ -373,4 +368,4 @@
   </ul>
 <div>
 </div>
-@endsection
+@stop
