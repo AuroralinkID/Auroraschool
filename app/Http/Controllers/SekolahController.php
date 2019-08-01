@@ -19,8 +19,10 @@ class SekolahController extends Controller
     public function index()
     {
         //
-        $sekolahs = Sekolah::all();
-        return view('sekolah.index', compact('sekolahs'));
+        $sekolahs = Sekolah::latest()->paginate(10);
+
+        return view('sekolah.index', compact('sekolahs'))
+        ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -91,24 +93,25 @@ class SekolahController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Sekolah  $sekolah
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Sekolah $sekolah)
     {
         //
         // $sekolahan = sekolah::find($id);
-        return view('sekolah.show', ['sekolah' => sekolah::findOrFail($id)]);
+        return view('sekolah.edit',compact('sekolah'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Sekolah  $sekolah
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+
+    public function update(Request $request, Sekolah $sekolah)
     {
         //
         $request->validate([
@@ -117,7 +120,7 @@ class SekolahController extends Controller
             'nis'=>'required'
         ]);
 
-        $sekolahs = sekolah::find($id);
+        $sekolahs = sekolah::find($sekolah);
         $sekolahs->nama_sekolah =  $request->get('nama_sekolah');
         $sekolahs->alamat_sekolah = $request->get('alamat_sekolah');
         $sekolahs->nis = $request->get('nis');
@@ -133,15 +136,15 @@ class SekolahController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Sekolah  $sekolah
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Sekolah $sekolah)
     {
-        $sekolahs = sekolah::find($id);
-        $sekolahs->delete();
-        Alert::success('Data Berhasil Di Hapus', 'Berhasil');
-        return redirect('sekolah');
+        $sekolah->delete();
+
+        return redirect()->route('sekolah.index')
+                        ->with('success','Sekolahan deleted successfully');
     }
     /**
     * @return \Illuminate\Support\Collection
@@ -163,7 +166,18 @@ class SekolahController extends Controller
     public function import()
     {
         Excel::import(new SekolahImport,request()->file('file'));
-
+        Alert::success('Data Berhasil Di Import !!', 'Berhasil');
         return back();
+    }
+        /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteAll(Request $request)
+    {
+        $ids = $request->ids;
+        DB::table("sekolah")->whereIn('id',explode(",",$ids))->delete();
+        return response()->json(['success'=>"Products Deleted successfully."]);
     }
 }

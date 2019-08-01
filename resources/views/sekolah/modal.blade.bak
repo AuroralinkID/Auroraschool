@@ -1,0 +1,149 @@
+@extends('sekolah.index')
+@section('content')
+
+
+<!-- Large modal  Hapus-->
+<div  id="myHapusModal" class="modal modal-danger fade" role="document">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Konfirmasi Hapus Data </h4>
+            </div>
+            <div class="modal-body">
+                    <div class="text-center">
+                        Apa anda yakin !!!
+                    </div>
+                <form method="post" action="#" style="margin: 19px;">
+                        @csrf
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="fa fa-close"></span> Tidak</button>
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal"><span class="fa fa-check"></span> Ya, Hapus</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal Hapus -->
+
+<!-- Ini awalan modal detail -->
+<div  id="myDetailModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Detail data sekolahan</h4>
+        </div>
+        <div class="modal-body">
+        <div class="text-center">
+        <center><img src="https://asset.kompas.com/crop/39x0:712x449/490x326/data/photo/2018/05/09/1489896978.jpg"></center><br><br>
+        </div>
+        <div class="row">
+        <div class="col-lg-12">
+        @if ($errors->any())
+              <div class="alert alert-danger">
+              <ul>
+                  @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+              </div>
+          <br />
+          @endif
+          {{-- <table class="table table-bordered">
+          <tr>
+            <td><b>Nama</b></td>
+            <td>{{$skul->nama_sekolah}}</td>
+          </tr>
+          <tr>
+            <td><b>Alamat</b></td>
+            <td>{{ $skul->alamat_sekolah }}</td>
+          </tr>
+          <tr>
+            <td><b>NIS</b></td>
+            <td>{{ $skul->nis }}</td>
+          </tr>
+          <tr>
+            <td><b>Email</b></td>
+            <td>{{ $skul->email }}</td>
+          </tr>
+          <tr>
+            <td><b>Telepon</b></td>
+            <td>{{ $skul->telepon }}</td>
+          </tr>
+          <tr>
+            <td><b>Kota</b></td>
+            <td>{{ $skul->kota }}</td>
+          </tr>
+      </table> --}}
+        </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="fa fa-close"></span> Tutup</button>
+        </div>
+        </div>
+    </div>
+  </div>
+<!-- Ini akhiran modal detail -->
+
+<!-- Ini awalan modal edit -->
+<div  id="myEditModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Edit data sekolahan</h4>
+                              </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                                @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                @endif
+                                                {{-- <form method="post" action="{{ route('sekolah.update', $skul->id) }}">
+                                                        @method('PATCH')
+                                                        @csrf
+                                                        <div class="form-group">
+
+                                                                <label for="first_name">Nama Sekolah:</label>
+                                                                <input type="text" class="form-control" name="nama_sekolah" value={{ $skul->nama_sekolah }} />
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                                <label for="last_name">Alamat Sekolah:</label>
+                                                                <input type="text" class="form-control" name="alamat_sekolah" value={{ $skul->alamat_sekolah }} />
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                                <label for="email">NIS:</label>
+                                                                <input type="text" class="form-control" name="nis" value={{ $skul->nis }} />
+                                                        </div>
+                                                        <div class="form-group">
+                                                                <label for="city">Telepon:</label>
+                                                                <input type="text" class="form-control" name="telepon" value={{ $skul->telepon }} />
+                                                        </div>
+                                                        <div class="form-group">
+                                                                <label for="country">Email:</label>
+                                                                <input type="text" class="form-control" name="email" value={{ $skul->email }} />
+                                                        </div>
+                                                        <div class="form-group">
+                                                                <label for="job_title">Kota:</label>
+                                                                <input type="text" class="form-control" name="kota" value={{ $skul->kota }} />
+                                                        </div>
+                                                </form> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="fa fa-close"></span> Tutup</button>
+                  </div>
+                  </div>
+              </div>
+</div>
+<!-- Ini akhiran modal edit -->
+@endsection
